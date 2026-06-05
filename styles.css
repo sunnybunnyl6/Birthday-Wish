@@ -17,10 +17,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
 }
 
 html {
     scroll-behavior: smooth;
+    width: 100%;
+    height: 100%;
 }
 
 body {
@@ -29,6 +33,10 @@ body {
     color: #333;
     overflow-x: hidden;
     position: relative;
+    width: 100%;
+    height: 100%;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 /* =======================================
@@ -39,9 +47,10 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     z-index: 1;
     display: block;
+    touch-action: none;
 }
 
 /* =======================================
@@ -51,13 +60,16 @@ body {
     position: relative;
     z-index: 10;
     width: 100%;
+    max-width: 100%;
 }
 
 section {
     min-height: auto;
-    padding: 80px 20px;
+    padding: 60px 20px;
     position: relative;
     z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* =======================================
@@ -69,20 +81,23 @@ section {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px;
+    padding: 40px 20px;
     position: relative;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 .greeting-content {
     text-align: center;
     position: relative;
     z-index: 5;
+    max-width: 100%;
+    padding: 20px;
 }
 
 .main-title {
-    font-size: 4rem;
+    font-size: clamp(2rem, 8vw, 4rem);
     font-weight: 700;
     background: linear-gradient(135deg, #FFD700, #FF8C42, #DDA0DD);
     -webkit-background-clip: text;
@@ -91,16 +106,19 @@ section {
     text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
     margin-bottom: 20px;
     animation: glow-pulse 2s ease-in-out infinite;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    word-break: break-word;
 }
 
 .subtitle {
-    font-size: 1.3rem;
+    font-size: clamp(0.9rem, 4vw, 1.3rem);
     color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     max-width: 600px;
-    line-height: 1.8;
+    line-height: 1.6;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* =======================================
@@ -135,8 +153,8 @@ section {
    ======================================= */
 .celebrate-btn,
 .blow-btn {
-    padding: 15px 40px;
-    font-size: 1.1rem;
+    padding: clamp(10px, 3vw, 15px) clamp(25px, 5vw, 40px);
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
     font-weight: 600;
     border: 2px solid #FFD700;
     background: rgba(255, 215, 0, 0.1);
@@ -148,10 +166,16 @@ section {
     letter-spacing: 1px;
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
     backdrop-filter: blur(10px);
+    -webkit-appearance: none;
+    -webkit-border-radius: 50px;
+    touch-action: manipulation;
+    white-space: nowrap;
 }
 
 .celebrate-btn:hover,
-.blow-btn:hover:not(:disabled) {
+.celebrate-btn:active,
+.blow-btn:hover:not(:disabled),
+.blow-btn:active:not(:disabled) {
     background: rgba(255, 215, 0, 0.2);
     transform: scale(1.05);
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
@@ -172,12 +196,13 @@ section {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    overflow: hidden;
 }
 
 .balloon {
     position: absolute;
-    width: 30px;
-    height: 40px;
+    width: 25px;
+    height: 35px;
     border-radius: 50% 50% 50% 0;
     background: linear-gradient(135deg, #FF8C42, #FFD700);
     opacity: 0.8;
@@ -187,23 +212,23 @@ section {
 .balloon::before {
     content: '';
     position: absolute;
-    bottom: -30px;
+    bottom: -25px;
     left: 50%;
     transform: translateX(-50%);
     width: 1px;
-    height: 30px;
+    height: 25px;
     background: rgba(255, 255, 255, 0.3);
 }
 
 .balloon-1 {
-    left: 10%;
+    left: 5%;
     bottom: -50px;
     background: linear-gradient(135deg, #FF8C42, #FFB347);
     animation-delay: 0s;
 }
 
 .balloon-2 {
-    left: 25%;
+    left: 20%;
     bottom: -50px;
     background: linear-gradient(135deg, #DDA0DD, #FFD700);
     animation-delay: 1s;
@@ -224,7 +249,7 @@ section {
 }
 
 .balloon-5 {
-    left: 85%;
+    right: 5%;
     bottom: -50px;
     background: linear-gradient(135deg, #FFD700, #FF8C42);
     animation-delay: 2.5s;
@@ -239,7 +264,7 @@ section {
         opacity: 0.9;
     }
     100% {
-        transform: translateY(-100vh) translateX(50px);
+        transform: translateY(-120vh) translateX(50px);
         opacity: 0;
     }
 }
@@ -258,8 +283,8 @@ section {
 
 .star {
     position: absolute;
-    width: 3px;
-    height: 3px;
+    width: 2px;
+    height: 2px;
     background: white;
     border-radius: 50%;
     animation: twinkle 3s infinite;
@@ -278,19 +303,20 @@ section {
    CONFETTI
    ======================================= */
 .confetti-container {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     pointer-events: none;
     overflow: hidden;
+    z-index: 45;
 }
 
 .confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
+    position: fixed;
+    width: 8px;
+    height: 8px;
     background: var(--confetti-color);
     animation: fall 3s linear forwards;
 }
@@ -322,9 +348,9 @@ section {
 }
 
 .firework-particle {
-    position: absolute;
-    width: 8px;
-    height: 8px;
+    position: fixed;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     opacity: 1;
 }
@@ -360,8 +386,8 @@ section {
 .message-section h2,
 .wishes-section h2,
 .final-message h2 {
-    font-size: 2.5rem;
-    margin-bottom: 50px;
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    margin-bottom: 40px;
     text-align: center;
     background: linear-gradient(135deg, #FFD700, #FF8C42, #DDA0DD);
     -webkit-background-clip: text;
@@ -371,23 +397,26 @@ section {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: clamp(15px, 3vw, 30px);
+    padding: clamp(10px, 3vw, 20px);
+    max-width: 100%;
 }
 
 .gallery-card {
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
 }
 
-.gallery-card:hover {
+.gallery-card:hover,
+.gallery-card:active {
     transform: translateY(-10px);
     box-shadow: 0 12px 40px rgba(255, 215, 0, 0.2);
     border-color: rgba(255, 215, 0, 0.3);
@@ -395,15 +424,16 @@ section {
 
 .gallery-image {
     width: 100%;
-    height: 250px;
+    height: 200px;
     background-size: cover;
     background-position: center;
 }
 
 .gallery-card p {
-    padding: 20px;
+    padding: clamp(12px, 3vw, 20px);
     text-align: center;
     font-weight: 600;
+    font-size: clamp(0.85rem, 2vw, 1rem);
     color: rgba(255, 255, 255, 0.8);
 }
 
@@ -420,13 +450,13 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 30px;
 }
 
 .cake {
     position: relative;
-    width: 300px;
-    height: 200px;
+    width: clamp(200px, 80vw, 300px);
+    height: clamp(130px, 50vw, 200px);
 }
 
 .cake-layer {
@@ -438,54 +468,56 @@ section {
 }
 
 .cake-layer.bottom {
-    height: 70px;
+    height: 35%;
     bottom: 0;
     background: linear-gradient(135deg, #FF8C42, #FFB347);
 }
 
 .cake-layer.middle {
-    height: 70px;
-    bottom: 70px;
+    height: 35%;
+    bottom: 35%;
     background: linear-gradient(135deg, #FFB6C1, #FF69B4);
 }
 
 .cake-layer.top {
-    height: 50px;
-    bottom: 140px;
+    height: 25%;
+    bottom: 70%;
     background: linear-gradient(135deg, #DDA0DD, #DA70D6);
 }
 
 .candles-holder {
     position: absolute;
-    top: 100px;
+    top: 45%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 20px;
+    gap: clamp(10px, 2vw, 20px);
 }
 
 .candle {
-    width: 8px;
-    height: 40px;
+    width: 6px;
+    height: clamp(25px, 6vw, 40px);
     background: linear-gradient(135deg, #FFD700, #FFA500);
-    border-radius: 4px;
+    border-radius: 3px;
     cursor: pointer;
     position: relative;
     transition: all 0.2s;
+    touch-action: manipulation;
 }
 
-.candle:hover {
+.candle:hover,
+.candle:active {
     transform: scale(1.1);
 }
 
 .flame {
     position: absolute;
-    width: 6px;
-    height: 15px;
+    width: 5px;
+    height: 12px;
     background: linear-gradient(to top, #FF8C42, #FFD700, #FFFF00);
     border-radius: 50% 50% 50% 50%;
-    top: -15px;
-    left: 1px;
+    top: -12px;
+    left: 0.5px;
     opacity: 0;
     animation: flicker 0.6s ease-in-out infinite;
 }
@@ -516,6 +548,7 @@ section {
 .cake-instruction {
     color: rgba(255, 255, 255, 0.8);
     font-style: italic;
+    font-size: clamp(0.85rem, 2vw, 1rem);
 }
 
 /* =======================================
@@ -529,43 +562,46 @@ section {
 
 .qualities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(15px, 3vw, 30px);
+    padding: clamp(10px, 3vw, 20px);
 }
 
 .quality-card {
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(221, 160, 221, 0.1));
     border-radius: 20px;
-    padding: 30px;
+    padding: clamp(15px, 4vw, 30px);
     text-align: center;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 215, 0, 0.2);
     transition: all 0.3s ease;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
 }
 
-.quality-card:hover {
+.quality-card:hover,
+.quality-card:active {
     transform: translateY(-15px);
     box-shadow: 0 12px 40px rgba(255, 215, 0, 0.3);
     border-color: rgba(255, 215, 0, 0.4);
 }
 
 .quality-emoji {
-    font-size: 3rem;
+    font-size: clamp(2rem, 6vw, 3rem);
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .quality-card h3 {
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 3vw, 1.3rem);
     margin-bottom: 10px;
     color: #FFD700;
 }
 
 .quality-card p {
     color: rgba(255, 255, 255, 0.7);
-    line-height: 1.6;
+    line-height: 1.5;
+    font-size: clamp(0.8rem, 2vw, 1rem);
 }
 
 /* =======================================
@@ -578,26 +614,28 @@ section {
 }
 
 .message-card.glassmorphism {
-    max-width: 800px;
+    max-width: 100%;
+    width: 100%;
     margin: 0 auto;
-    padding: 60px 40px;
+    padding: clamp(25px, 6vw, 60px) clamp(20px, 5vw, 40px);
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 215, 0, 0.2);
-    border-radius: 30px;
+    border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 }
 
 .message-card h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    margin-bottom: 25px;
 }
 
 .message-card p {
-    font-size: 1.1rem;
-    line-height: 1.9;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.8;
     color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-align: justify;
 }
 
@@ -612,43 +650,46 @@ section {
 
 .wishes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: clamp(15px, 3vw, 25px);
+    padding: clamp(10px, 3vw, 20px);
 }
 
 .wish-card {
     background: rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-    padding: 30px;
+    padding: clamp(15px, 4vw, 30px);
     text-align: center;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     transition: all 0.3s ease;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
 }
 
-.wish-card:hover {
+.wish-card:hover,
+.wish-card:active {
     transform: translateY(-10px);
     box-shadow: 0 15px 45px rgba(255, 215, 0, 0.25);
     border-color: rgba(255, 215, 0, 0.3);
 }
 
 .wish-icon {
-    font-size: 3rem;
+    font-size: clamp(2rem, 6vw, 3rem);
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .wish-card h3 {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 3vw, 1.2rem);
     margin-bottom: 10px;
     color: #FFD700;
 }
 
 .wish-card p {
     color: rgba(255, 255, 255, 0.7);
-    line-height: 1.6;
+    line-height: 1.5;
+    font-size: clamp(0.8rem, 2vw, 1rem);
 }
 
 /* =======================================
@@ -666,31 +707,32 @@ section {
     text-align: center;
     position: relative;
     z-index: 5;
-    max-width: 900px;
+    max-width: 100%;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 .final-title {
-    font-size: 3.5rem;
+    font-size: clamp(1.8rem, 8vw, 3.5rem);
     font-weight: 700;
     background: linear-gradient(135deg, #FFD700, #FF8C42, #FFB6C1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     animation: glow-pulse 2s ease-in-out infinite;
 }
 
 .final-text {
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 3vw, 1.3rem);
     color: rgba(255, 255, 255, 0.9);
-    line-height: 1.9;
-    margin-bottom: 30px;
+    line-height: 1.8;
+    margin-bottom: 25px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .final-closing {
-    font-size: 1.2rem;
+    font-size: clamp(0.95rem, 2.5vw, 1.2rem);
     color: rgba(255, 215, 0, 0.9);
     font-weight: 600;
     text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
@@ -710,9 +752,9 @@ section {
 }
 
 .lantern {
-    position: absolute;
-    width: 30px;
-    height: 40px;
+    position: fixed;
+    width: 25px;
+    height: 35px;
     background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.8), rgba(255, 165, 0, 0.4));
     border-radius: 50%;
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
@@ -744,8 +786,8 @@ section {
 }
 
 .heart {
-    position: absolute;
-    font-size: 2rem;
+    position: fixed;
+    font-size: clamp(1.5rem, 3vw, 2rem);
     animation: float-heart 6s ease-in infinite;
 }
 
@@ -774,8 +816,8 @@ section {
 }
 
 .butterfly {
-    position: absolute;
-    font-size: 1.5rem;
+    position: fixed;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
     animation: butterfly-fly 8s infinite;
     filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
 }
@@ -808,88 +850,75 @@ section {
 }
 
 /* =======================================
-   RESPONSIVE DESIGN
+   MOBILE OPTIMIZATIONS
    ======================================= */
 @media (max-width: 768px) {
+    section {
+        padding: 40px 15px;
+    }
+
     .main-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     .subtitle {
         font-size: 1rem;
     }
 
-    .memories-section h2,
-    .cake-section h2,
-    .special-section h2,
-    .message-section h2,
-    .wishes-section h2,
-    .final-message h2 {
-        font-size: 2rem;
-    }
-
-    .quality-card,
-    .wish-card {
-        padding: 20px;
-    }
-
-    .message-card.glassmorphism {
-        padding: 30px 20px;
-        border-radius: 20px;
-    }
-
-    .message-card p {
-        font-size: 1rem;
-    }
-
-    .cake {
-        width: 250px;
-        height: 150px;
-    }
-
-    .candles-holder {
-        gap: 15px;
-    }
-
-    .final-title {
-        font-size: 2.5rem;
-    }
-
-    .final-text {
-        font-size: 1.1rem;
-    }
-
-    section {
-        padding: 60px 15px;
+    .balloon {
+        width: 20px;
+        height: 30px;
     }
 }
 
 @media (max-width: 480px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    section {
+        padding: 30px 12px;
+    }
+
     .main-title {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
 
     .subtitle {
         font-size: 0.9rem;
+        margin-bottom: 20px;
     }
 
-    .celebrate-btn,
-    .blow-btn {
-        padding: 12px 30px;
-        font-size: 0.9rem;
+    .balloon {
+        width: 18px;
+        height: 28px;
     }
 
     .gallery-grid,
     .qualities-grid,
     .wishes-grid {
-        gap: 15px;
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
+}
 
-    .final-title {
-        font-size: 2rem;
+/* =======================================
+   LANDSCAPE MODE
+   ======================================= */
+@media (max-height: 600px) {
+    .greeting-section {
+        min-height: auto;
+        padding: 20px 15px;
     }
+}
 
-    .final-text {
-        font-size: 1rem;
+/* =======================================
+   ACCESSIBILITY
+   ======================================= */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
