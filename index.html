@@ -2,230 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0A1628">
-    <title>🎉 Happy Birthday, Sanvitha! 🎂</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        body { 
+            margin: 0; 
+            /* Vibrant Birthday Ombre */
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 50%, #f093fb 100%) no-repeat;
+            background-size: cover;
+            height: 100vh;
+            overflow: hidden; 
+            font-family: 'Arial', sans-serif; 
+        }
+        
+        canvas { 
+            display: block; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            z-index: 5; 
+            pointer-events: none; 
+            background: transparent;
+        }
+        
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            color: #ffffff;
+            font-size: 5em;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px #ffd700;
+            z-index: 10;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            opacity: 0;
+            transition: opacity 3s ease-in-out, top 8s linear; 
+            pointer-events: none;
+            border-radius: 2px;
+        }
+
+        #overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: flex; justify-content: center;
+            align-items: center; z-index: 100; color: white; flex-direction: column;
+        }
+        
+        button {
+            padding: 20px 40px; font-size: 1.5rem; cursor: pointer;
+            background: #ffd700; border: none; color: #333; border-radius: 50px;
+            box-shadow: 0 0 20px #ffd700; font-weight: bold; transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px #ffd700;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+    </style>
 </head>
 <body>
-    <!-- Audio Background Music -->
-    <audio id="bgMusic" loop volume="0.5">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
 
-    <!-- Animated Sunset Canvas -->
-    <canvas id="sunsetCanvas"></canvas>
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Initial Greeting Section -->
-        <section class="greeting-section">
-            <div class="stars-container" id="starsContainer"></div>
-            
-            <div class="greeting-content">
-                <h1 class="main-title fade-in">🎉 Happy Birthday, Sanvitha! 🎂</h1>
-                <p class="subtitle fade-in">Today is all about celebrating the amazing person you are. May your day be filled with joy, laughter, love, and unforgettable memories.</p>
-                
-                <button class="celebrate-btn" id="celebrateBtn">🎊 Celebrate Sanvitha 🎊</button>
-            </div>
-
-            <!-- Floating Balloons -->
-            <div class="balloons">
-                <div class="balloon balloon-1"></div>
-                <div class="balloon balloon-2"></div>
-                <div class="balloon balloon-3"></div>
-                <div class="balloon balloon-4"></div>
-                <div class="balloon balloon-5"></div>
-            </div>
-
-            <!-- Confetti Container -->
-            <div id="confettiContainer" class="confetti-container"></div>
-
-            <!-- Fireworks Container -->
-            <div id="fireworksContainer" class="fireworks-container"></div>
-        </section>
-
-        <!-- Memories Gallery Section -->
-        <section class="memories-section scroll-animate">
-            <h2>📸 Memories with Sanvitha</h2>
-            <div class="gallery-grid">
-                <div class="gallery-card">
-                    <div class="gallery-image" style="background: linear-gradient(135deg, #FFB347 0%, #FFA500 100%);"></div>
-                    <p>Laughter & Joy</p>
-                </div>
-                <div class="gallery-card">
-                    <div class="gallery-image" style="background: linear-gradient(135deg, #DDA0DD 0%, #DA70D6 100%);"></div>
-                    <p>Beautiful Moments</p>
-                </div>
-                <div class="gallery-card">
-                    <div class="gallery-image" style="background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);"></div>
-                    <p>Cherished Times</p>
-                </div>
-                <div class="gallery-card">
-                    <div class="gallery-image" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);"></div>
-                    <p>Golden Memories</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Interactive Cake Section -->
-        <section class="cake-section scroll-animate">
-            <h2>🎂 Make a Wish</h2>
-            <div class="cake-container">
-                <div class="cake">
-                    <div class="cake-layer bottom"></div>
-                    <div class="cake-layer middle"></div>
-                    <div class="cake-layer top"></div>
-                    <div class="candles-holder">
-                        <div class="candle" id="candle1">
-                            <div class="flame"></div>
-                        </div>
-                        <div class="candle" id="candle2">
-                            <div class="flame"></div>
-                        </div>
-                        <div class="candle" id="candle3">
-                            <div class="flame"></div>
-                        </div>
-                        <div class="candle" id="candle4">
-                            <div class="flame"></div>
-                        </div>
-                        <div class="candle" id="candle5">
-                            <div class="flame"></div>
-                        </div>
-                    </div>
-                </div>
-                <p class="cake-instruction">Click on candles to light them, then blow them out!</p>
-                <button class="blow-btn" id="blowBtn" disabled>💨 Blow Out Candles</button>
-            </div>
-        </section>
-
-        <!-- Why Sanvitha Is Special Section -->
-        <section class="special-section scroll-animate">
-            <h2>✨ Why Sanvitha Is Special</h2>
-            <div class="qualities-grid">
-                <div class="quality-card">
-                    <span class="quality-emoji">💖</span>
-                    <h3>Kind-Hearted</h3>
-                    <p>Always there with a caring heart and genuine compassion.</p>
-                </div>
-                <div class="quality-card">
-                    <span class="quality-emoji">🌟</span>
-                    <h3>Inspiring</h3>
-                    <p>Motivates everyone around with positivity and energy.</p>
-                </div>
-                <div class="quality-card">
-                    <span class="quality-emoji">😂</span>
-                    <h3>Funny</h3>
-                    <p>Brings laughter and joy to every moment shared together.</p>
-                </div>
-                <div class="quality-card">
-                    <span class="quality-emoji">🎨</span>
-                    <h3>Creative</h3>
-                    <p>Brings unique perspectives and beautiful ideas to life.</p>
-                </div>
-                <div class="quality-card">
-                    <span class="quality-emoji">🦋</span>
-                    <h3>Resilient</h3>
-                    <p>Faces challenges with strength and unwavering determination.</p>
-                </div>
-                <div class="quality-card">
-                    <span class="quality-emoji">🌈</span>
-                    <h3>Radiant</h3>
-                    <p>Your presence lights up every room and every heart you touch.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Heartfelt Message Card -->
-        <section class="message-section scroll-animate">
-            <div class="message-card glassmorphism">
-                <h2>💌 A Special Message</h2>
-                <p>
-                    Dear Sanvitha,
-                </p>
-                <p>
-                    On this beautiful day dedicated entirely to you, we want to take a moment to appreciate the incredible person you are. Your kindness knows no bounds, your smile is contagious, and your presence makes the world a brighter place.
-                </p>
-                <p>
-                    You inspire us with your strength, your creativity, and your unwavering positivity. Every moment spent with you becomes a cherished memory, filled with laughter and genuine connection.
-                </p>
-                <p>
-                    As you celebrate another year of life, know that you are loved, appreciated, and admired. May this year bring you endless joy, success in all your endeavors, and the fulfillment of your wildest dreams.
-                </p>
-                <p>
-                    You deserve every happiness this world has to offer, and so much more.
-                </p>
-                <p style="margin-top: 30px; font-style: italic;">
-                    With all our love and warmest wishes,<br>
-                    <strong>Forever celebrating you 💫</strong>
-                </p>
-            </div>
-        </section>
-
-        <!-- Wishes Section -->
-        <section class="wishes-section scroll-animate">
-            <h2>🌟 Wishes for Your Future</h2>
-            <div class="wishes-grid">
-                <div class="wish-card">
-                    <span class="wish-icon">🎯</span>
-                    <h3>Success</h3>
-                    <p>May every goal you chase come true, and every dream find its wings.</p>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-icon">💕</span>
-                    <h3>Love</h3>
-                    <p>May your heart always be filled with love from those around you.</p>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-icon">🌍</span>
-                    <h3>Adventures</h3>
-                    <p>May your life be filled with exciting adventures and wonderful discoveries.</p>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-icon">💪</span>
-                    <h3>Growth</h3>
-                    <p>May each day bring you wisdom, strength, and personal growth.</p>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-icon">🌺</span>
-                    <h3>Health</h3>
-                    <p>May you always be blessed with health, happiness, and vitality.</p>
-                </div>
-                <div class="wish-card">
-                    <span class="wish-icon">✨</span>
-                    <h3>Magic</h3>
-                    <p>May every day sparkle with magic and unexpected beautiful moments.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Final Message Section -->
-        <section class="final-message scroll-animate">
-            <div class="final-content">
-                <h1 class="final-title">❤️ Happy Birthday, Sanvitha ❤️</h1>
-                <p class="final-text">
-                    May every dream you have shine as brightly as the stars above. May happiness follow you wherever you go, and may this year bring you endless success, love, and beautiful moments.
-                </p>
-                <p class="final-closing">
-                    With love and best wishes, forever celebrating you, Sanvitha. ✨
-                </p>
-            </div>
-
-            <!-- Floating Lanterns -->
-            <div class="lanterns-container" id="lanternsContainer"></div>
-
-            <!-- Final Fireworks -->
-            <div id="finalFireworksContainer" class="fireworks-container"></div>
-        </section>
-
-        <!-- Floating Hearts -->
-        <div class="hearts-container" id="heartsContainer"></div>
-
-        <!-- Glowing Butterflies -->
-        <div class="butterflies-container" id="butterfliesContainer"></div>
+    <div id="overlay">
+        <h1>🎉 A Special Birthday Surprise! 🎂</h1>
+        <button onclick="startShow()">Click to Celebrate! 🎈</button>
     </div>
+
+    <audio id="bgMusic" src="birthday-music.mp3" loop></audio>
+
+    <div id="message">Happy Birthday!</div>
+    <canvas id="fireworksCanvas"></canvas>
 
     <script src="script.js"></script>
 </body>
